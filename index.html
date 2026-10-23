@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#080e19">
+    <meta name="description" content="Interactive signal generator and waveform display with an oscilloscope and electrical signal measurements.">
+
+    <title>SignalLab | Signal Generator & Waveform Display</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="topbar">
+
+        <a class="brand" href="#" aria-label="SignalLab home">
+            <span class="logo" aria-hidden="true">∿</span>
+
+            <span class="brand-name">
+                Signal<span class="cyan">Lab</span>
+            </span>
+        </a>
+
+        <div class="header-right">
+            <span class="status-dot"></span>
+            <span id="systemStatus">SYSTEM ONLINE</span>
+        </div>
+
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-container">
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <div class="eyebrow">
+                VIRTUAL ELECTRONICS LABORATORY
+            </div>
+
+            <h1>
+                Signal Generator <span>&amp;</span><br>
+                <span class="gradient">Waveform Display</span>
+            </h1>
+
+            <p>
+                Generate electrical waveforms, adjust signal parameters
+                and observe the output using an interactive oscilloscope.
+            </p>
+
+        </section>
+
+
+        <!-- WORKSPACE -->
+        <section class="workspace">
+
+            <!-- SIGNAL CONTROLS -->
+            <aside class="panel controls">
+
+                <div class="panel-heading">
+                    <h2>Signal Controls</h2>
+                    <span class="section-tag">INPUT</span>
+                </div>
+
+
+                <!-- WAVEFORM TYPE -->
+                <div class="field">
+
+                    <label for="waveType">Waveform Type</label>
+
+                    <select id="waveType">
+                        <option value="sine">Sine Wave</option>
+                        <option value="square">Square Wave</option>
+                        <option value="triangle">Triangle Wave</option>
+                        <option value="sawtooth">Sawtooth Wave</option>
+                    </select>
+
+                </div>
+
+
+                <!-- FREQUENCY -->
+                <div class="field">
+
+                    <label for="frequency">
+                        <span>Frequency</span>
+                        <output id="frequencyValue">2 Hz</output>
+                    </label>
+
+                    <input
+                        type="range"
+                        id="frequency"
+                        min="0.5"
+                        max="10"
+                        step="0.5"
+                        value="2"
+                    >
+
+                    <div class="range-labels">
+                        <span>0.5 Hz</span>
+                        <span>10 Hz</span>
+                    </div>
+
+                </div>
+
+
+                <!-- AMPLITUDE -->
+                <div class="field">
+
+                    <label for="amplitude">
+                        <span>Amplitude</span>
+                        <output id="amplitudeValue">5 V</output>
+                    </label>
+
+                    <input
+                        type="range"
+                        id="amplitude"
+                        min="1"
+                        max="10"
+                        step="0.5"
+                        value="5"
+                    >
+
+                    <div class="range-labels">
+                        <span>1 V</span>
+                        <span>10 V</span>
+                    </div>
+
+                </div>
+
+
+                <!-- PHASE -->
+                <div class="field">
+
+                    <label for="phase">
+                        <span>Phase Shift</span>
+                        <output id="phaseValue">0°</output>
+                    </label>
+
+                    <input
+                        type="range"
+                        id="phase"
+                        min="0"
+                        max="360"
+                        step="15"
+                        value="0"
+                    >
+
+                    <div class="range-labels">
+                        <span>0°</span>
+                        <span>360°</span>
+                    </div>
+
+                </div>
+
+
+                <!-- TIME WINDOW -->
+                <div class="field">
+
+                    <label for="cycles">
+                        <span>Time Window</span>
+                        <output id="cyclesValue">2 cycles</output>
+                    </label>
+
+                    <input
+                        type="range"
+                        id="cycles"
+                        min="1"
+                        max="5"
+                        step="1"
+                        value="2"
+                    >
+
+                    <div class="range-labels">
+                        <span>1 cycle</span>
+                        <span>5 cycles</span>
+                    </div>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+                <div class="buttons">
+
+                    <button
+                        type="button"
+                        id="runButton"
+                        class="primary-button"
+                    >
+                        Ⅱ Pause Signal
+                    </button>
+
+                    <button
+                        type="button"
+                        id="resetButton"
+                        class="secondary-button"
+                    >
+                        ↺ Reset
+                    </button>
+
+                </div>
+
+
+                <div class="control-footer">
+                    <span class="status-dot"></span>
+                    <span id="controlStatus">Signal running</span>
+                </div>
+
+            </aside>
+
+
+            <!-- OSCILLOSCOPE -->
+            <section class="panel scope">
+
+                <div class="panel-heading scope-heading">
+
+                    <h2>Oscilloscope Display</h2>
+
+                    <div class="live-status">
+                        <span class="status-dot"></span>
+                        <span id="scopeStatus">LIVE OUTPUT</span>
+                    </div>
+
+                </div>
+
+
+                <!-- CANVAS -->
+                <div class="canvas-container">
+
+                    <span class="axis-label voltage-label">
+                        VOLTAGE
+                    </span>
+
+                    <canvas
+                        id="waveCanvas"
+                        aria-label="Animated electrical waveform oscilloscope"
+                    ></canvas>
+
+                    <span class="axis-label time-label">
+                        TIME BASE · AUTO
+                    </span>
+
+                </div>
+
+
+                <!-- LEGEND -->
+                <div class="legend">
+
+                    <div class="legend-item">
+                        <span class="legend-line"></span>
+                        <span>Output Voltage</span>
+                    </div>
+
+                    <span id="waveName">SINE WAVE</span>
+
+                </div>
+
+
+                <!-- MEASUREMENTS -->
+                <div class="measurement-heading">
+
+                    <h3>Signal Measurements</h3>
+
+                    <span>AUTOMATIC CALCULATION</span>
+
+                </div>
+
+
+                <div class="metrics">
+
+                    <article class="metric">
+                        <div class="metric-label">
+                            Peak Voltage
+                        </div>
+
+                        <div class="metric-symbol">
+                            Vp
+                        </div>
+
+                        <strong id="peakVoltage">5.00 V</strong>
+                    </article>
+
+
+                    <article class="metric">
+                        <div class="metric-label">
+                            Peak-to-Peak Voltage
+                        </div>
+
+                        <div class="metric-symbol">
+                            Vpp
+                        </div>
+
+                        <strong id="peakToPeak">10.00 V</strong>
+                    </article>
+
+
+                    <article class="metric">
+                        <div class="metric-label">
+                            RMS Voltage
+                        </div>
+
+                        <div class="metric-symbol">
+                            Vrms
+                        </div>
+
+                        <strong id="rmsVoltage">3.54 V</strong>
+                    </article>
+
+
+                    <article class="metric">
+                        <div class="metric-label">
+                            Frequency
+                        </div>
+
+                        <div class="metric-symbol">
+                            f
+                        </div>
+
+                        <strong id="freqMeasure">2.00 Hz</strong>
+                    </article>
+
+
+                    <article class="metric">
+                        <div class="metric-label">
+                            Time Period
+                        </div>
+
+                        <div class="metric-symbol">
+                            T
+                        </div>
+
+                        <strong id="period">500 ms</strong>
+                    </article>
+
+
+                    <article class="metric">
+                        <div class="metric-label">
+                            Angular Frequency
+                        </div>
+
+                        <div class="metric-symbol">
+                            ω
+                        </div>
+
+                        <strong id="angularFrequency">12.57 rad/s</strong>
+                    </article>
+
+                </div>
+
+            </section>
+
+        </section>
+
+
+        <!-- INFORMATION -->
+        <section class="bottom-grid">
+
+            <article class="panel information">
+
+                <div class="info-icon">∿</div>
+
+                <h2>Signal Equation</h2>
+
+                <p class="equation" id="equation">
+                    v(t) = 5 sin(2π × 2t + 0°)
+                </p>
+
+                <p class="info-description">
+                    The equation describes the instantaneous voltage
+                    of the selected signal as a function of time.
+                </p>
+
+            </article>
+
+
+            <article class="panel information">
+
+                <div class="info-icon">⌁</div>
+
+                <h2>About SignalLab</h2>
+
+                <p class="info-description">
+                    SignalLab is an interactive electronics laboratory
+                    simulation for studying periodic signals, voltage,
+                    frequency, phase, and waveform characteristics.
+                </p>
+
+                <div class="notice">
+                    Educational simulation. No physical electrical
+                    signal is generated.
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- FOOTER -->
+        <footer class="footer">
+
+            <div class="footer-brand">
+                <span class="footer-logo">∿</span>
+                SignalLab
+            </div>
+
+            <span>Signal Generator &amp; Waveform Display</span>
+
+            <span class="footer-label">
+                ECE PROJECT
+            </span>
+
+        </footer>
+
+    </main>
+
+</body>
+</html>
